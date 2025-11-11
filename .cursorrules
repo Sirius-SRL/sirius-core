@@ -1,0 +1,192 @@
+# 🎯 Sirius Core - Master Repository Rules
+
+## 📁 Repository Structure
+
+This is a **monorepo** containing multiple Sirius projects:
+
+- **einvoice-fastapi/** - FastAPI backend for invoice management
+- **einvoice2-nuxt3/** - Nuxt 3 frontend application
+- **sirius-pdf-generator/** - Python PDF generation service
+- **sirius-pdf-templating/** - Node.js PDF templating service
+- **sirius-translations-to-sheet/** - Translation management utility
+
+## 🚨 Critical Rules
+
+### 1. Project-Specific Context
+- **ALWAYS** check which subdirectory you're working in
+- **EACH PROJECT** has its own rules in subdirectory `.cursorrules` or `.cursor/` folder
+- **LOAD** project-specific rules when working in that directory
+- **NEVER** apply rules from one project to another
+
+### 2. Development Server Rules
+- **NEVER** run `npm run dev`, `poetry run`, or similar commands
+- Development servers are ALWAYS running in reload mode
+- **NEVER** check or modify `.env` files - variables are always correct
+
+### 3. Git Operations
+- **NEVER** run destructive git commands (force push, hard reset)
+- **NEVER** skip hooks (--no-verify, --no-gpg-sign)
+- **NEVER** force push to main/master
+- **NEVER** commit changes unless user explicitly asks
+- **ALWAYS** warn user before destructive operations
+
+### 4. Documentation
+- Each project has its own documentation structure
+- Maintain project-specific `task_on_hand.md`, `development_log.md`, etc.
+- Update appropriate project documentation when making changes
+
+## 🏗️ Project Overview
+
+### einvoice-fastapi (Backend)
+**Tech Stack**: FastAPI, SQLAlchemy, Pydantic v2, PostgreSQL, Redis, Docker
+**Purpose**: Main API backend for invoice management system
+**Key Features**: Multi-tenant workspaces, JWT auth, e-factura integration, AI document processing
+
+**Rules Summary**:
+- Use modern Python typing (no Optional, List, Dict from typing)
+- Use pydantic v2 with mapped_column
+- PEP257 docstrings required
+- Poetry for dependencies
+- Never auto-create Alembic migrations
+- pytest only (no unittest)
+- Use custom PydanticBaseModel
+
+### einvoice2-nuxt3 (Frontend)
+**Tech Stack**: Nuxt 3, Vue 3, TypeScript, TailwindCSS, Pinia, Docker
+**Purpose**: Main web application frontend
+**Key Features**: Invoice generator, e-factura, payments, analytics, multi-language (RO, RU, EN)
+
+**Rules Summary**:
+- **CRITICAL**: ALWAYS use camelCase in Vue files (NEVER snake_case)
+- Composition API with `<script setup lang="ts">`
+- All UI text in English (use i18n for translations)
+- TailwindCSS + UnoCSS for styling
+- TypeScript strict mode
+- Pinia for state management
+
+### sirius-pdf-generator (Service)
+**Tech Stack**: Python, FastAPI, WeasyPrint, Docker
+**Purpose**: PDF generation microservice
+**Key Features**: HTML to PDF conversion, template rendering
+
+### sirius-pdf-templating (Service)
+**Tech Stack**: Node.js, Express, Puppeteer, UnoCSS, Docker
+**Purpose**: PDF templating and rendering service
+**Key Features**: Template management, CSS processing
+
+### sirius-translations-to-sheet (Utility)
+**Tech Stack**: Python, Google Sheets API
+**Purpose**: Translation synchronization utility
+**Key Features**: Sync translations between codebase and Google Sheets
+
+## 🔄 Cross-Project Considerations
+
+### API Contracts
+- Backend (FastAPI) defines API schemas
+- Frontend (Nuxt) consumes via generated types (Orval)
+- Changes to API require coordination between projects
+
+### Docker Deployment
+- Each project has multiple docker-compose files:
+  - `docker-compose.yml` (production)
+  - `docker-compose.dev.yml` (development)
+  - `docker-compose.staging.yml` (staging)
+  - `docker-compose.beta.yml` (beta)
+  - `docker-compose.local.yml` (local testing)
+
+### Shared Resources
+- PDF services shared by backend
+- Translation system shared across frontend/backend
+- Common deployment scripts (`deploy.manual.sh`, `restart.manual.sh`)
+
+## 📋 Working in This Monorepo
+
+### When Starting Work:
+1. Identify which project(s) you're working on
+2. Read that project's specific rules and documentation
+3. Stay within project boundaries unless explicitly doing cross-project work
+4. Update documentation in the appropriate project
+
+### When Making Cross-Project Changes:
+1. Document changes in BOTH projects
+2. Consider API contract implications
+3. Update integration points
+4. Test both sides of the integration
+
+### File Navigation:
+- Use project-relative paths when working within a project
+- Use absolute paths when referencing across projects
+- Be explicit about which project you're in
+
+## 🎯 Common Patterns
+
+### Backend (Python/FastAPI)
+```python
+# Modern typing
+def function(param: str) -> dict[str, Any]:
+    """PEP257 docstring."""
+    pass
+
+# Pydantic v2
+from sqlalchemy.orm import mapped_column
+```
+
+### Frontend (Vue/Nuxt)
+```typescript
+// Composition API
+<script setup lang="ts">
+// ALWAYS camelCase
+const userName = ref('')  // ✅
+const user_name = ref('')  // ❌ NEVER
+
+// Use composables
+const { t } = useI18n()
+</script>
+```
+
+## 🚫 Universal Anti-Patterns
+
+### Across All Projects:
+- ❌ Starting dev servers
+- ❌ Modifying .env files
+- ❌ Force pushing to protected branches
+- ❌ Committing without explicit request
+- ❌ Mixing project-specific patterns
+- ❌ Ignoring project-specific rules
+
+## 📊 Repository Health
+
+### Code Quality
+- Each project maintains its own linting/formatting rules
+- Backend: Ruff, mypy
+- Frontend: ESLint, TypeScript strict
+- Follow project-specific conventions
+
+### Documentation
+- Each project has README.md
+- Technical documentation in project-specific docs/
+- Shared knowledge in this master .cursorrules
+
+### Testing
+- Backend: pytest
+- Frontend: Vitest
+- Each project responsible for own tests
+
+## 🔍 Quick Reference
+
+### Need to work on invoices/API? → `einvoice-fastapi/`
+### Need to work on UI/frontend? → `einvoice2-nuxt3/`
+### Need to work on PDF generation? → `sirius-pdf-generator/`
+### Need to work on PDF templates? → `sirius-pdf-templating/`
+### Need to work on translations? → `sirius-translations-to-sheet/`
+
+---
+
+**Organization**: Sirius-SRL
+**Market**: Moldova (primary), Romanian & Russian speaking markets
+**Domain**: FinTech - Invoice & Payment Management
+**Website**: https://md.sirius.expert/
+
+**Last Updated**: 2025-11-11
+**Maintained By**: Development team
+

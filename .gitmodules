@@ -1,0 +1,25 @@
+[submodule "einvoice-fastapi"]
+	path = einvoice-fastapi
+	url = https://github.com/Sirius-SRL/einvoice-fastapi.git
+	branch = main
+
+[submodule "einvoice2-nuxt3"]
+	path = einvoice2-nuxt3
+	url = https://github.com/Sirius-SRL/einvoice2-nuxt3.git
+	branch = main
+
+[submodule "sirius-pdf-generator"]
+	path = sirius-pdf-generator
+	url = https://github.com/Sirius-SRL/pdf-generator.git
+	branch = main
+
+[submodule "sirius-pdf-templating"]
+	path = sirius-pdf-templating
+	url = https://github.com/Sirius-SRL/pdf-templating.git
+	branch = main
+
+[submodule "sirius-translations-to-sheet"]
+	path = sirius-translations-to-sheet
+	url = https://github.com/Sirius-SRL/translations-to-sheet.git
+	branch = main
+

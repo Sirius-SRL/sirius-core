@@ -1,0 +1,228 @@
+# Sirius Core - Master Repository .gitignore
+
+# ============================================================================
+# Environment & Secrets
+# ============================================================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+certs/*
+!certs/README.md
+
+# ============================================================================
+# IDE & Editors
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.cursor/
+
+# ============================================================================
+# Python (Backend & PDF Generator)
+# ============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+ENV/
+env/
+.venv
+poetry.lock
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================================================
+# Node.js (Frontend & PDF Templating)
+# ============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+.pnp.*
+package-lock.json
+yarn.lock
+.nuxt/
+.output/
+.cache/
+dist/
+.nitro/
+
+# ============================================================================
+# Logs
+# ============================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================================================
+# Database
+# ============================================================================
+*.db
+*.sqlite
+*.sqlite3
+db.sqlite3
+postgres-data/
+
+# ============================================================================
+# Docker
+# ============================================================================
+docker-compose.override.yml
+
+# ============================================================================
+# Static & Media Files (Project-specific)
+# ============================================================================
+# Backend static content
+einvoice-fastapi/scontent/acts/*
+einvoice-fastapi/scontent/anyway/*
+einvoice-fastapi/scontent/attachments/*
+einvoice-fastapi/scontent/avatars/*
+einvoice-fastapi/scontent/documents/*
+einvoice-fastapi/scontent/drafts/*
+einvoice-fastapi/scontent/efacturas/*
+einvoice-fastapi/scontent/invoices/*
+einvoice-fastapi/scontent/logos/*
+einvoice-fastapi/scontent/other/*
+einvoice-fastapi/scontent/payments/*
+einvoice-fastapi/scontent/uploaded/*
+
+# Keep directory structure
+!einvoice-fastapi/scontent/acts/.gitkeep
+!einvoice-fastapi/scontent/anyway/.gitkeep
+!einvoice-fastapi/scontent/attachments/.gitkeep
+!einvoice-fastapi/scontent/avatars/.gitkeep
+!einvoice-fastapi/scontent/documents/.gitkeep
+!einvoice-fastapi/scontent/drafts/.gitkeep
+!einvoice-fastapi/scontent/efacturas/.gitkeep
+!einvoice-fastapi/scontent/invoices/.gitkeep
+!einvoice-fastapi/scontent/logos/.gitkeep
+!einvoice-fastapi/scontent/other/.gitkeep
+!einvoice-fastapi/scontent/payments/.gitkeep
+!einvoice-fastapi/scontent/uploaded/.gitkeep
+
+# PDF Generator logs
+sirius-pdf-generator/logs/*
+!sirius-pdf-generator/logs/.gitkeep
+
+# ============================================================================
+# OS Specific
+# ============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# ============================================================================
+# Temporary Files
+# ============================================================================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# ============================================================================
+# Testing
+# ============================================================================
+.pytest_cache/
+coverage/
+.coverage
+htmlcov/
+.nyc_output/
+coverage-final.json
+
+# ============================================================================
+# Build Artifacts
+# ============================================================================
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+
+# ============================================================================
+# Project Specific
+# ============================================================================
+# Translation utility cache
+sirius-translations-to-sheet/venv/
+sirius-translations-to-sheet/__pycache__/
+
+# PDF templating node_modules
+sirius-pdf-templating/node_modules/
+
+# Frontend generated types (can be regenerated)
+einvoice2-nuxt3/types/
+einvoice2-nuxt3/schemas/
+
+# ============================================================================
+# Backup Files
+# ============================================================================
+*.backup
+*.old
+*.orig
+
+# ============================================================================
+# Documentation Build
+# ============================================================================
+docs/_build/
+site/
+
+# ============================================================================
+# Sentry
+# ============================================================================
+.sentryclirc
+
+# ============================================================================
+# Analytics & Monitoring
+# ============================================================================
+.posthogrc
+
