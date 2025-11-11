@@ -26,9 +26,9 @@ This monorepo contains the following projects:
 - JWT authentication & authorization
 - AI-powered document processing
 - Bank integrations
-- PostgreSQL + Redis
+- MySQL + Redis
 
-**Tech**: Python 3.11+, FastAPI, SQLAlchemy, Pydantic v2, Alembic, Docker
+**Tech**: Python 3.13+, FastAPI, SQLAlchemy, Pydantic v2, Alembic, MySQL, Docker
 
 #### [einvoice2-nuxt3/](./einvoice2-nuxt3)
 **Nuxt 3 Frontend Application**
@@ -46,11 +46,11 @@ This monorepo contains the following projects:
 #### [sirius-pdf-generator/](./sirius-pdf-generator)
 **Python PDF Generation Service**
 - HTML to PDF conversion
-- WeasyPrint-based rendering
+- Playwright-based rendering
 - Template processing
 - High-quality document output
 
-**Tech**: Python, FastAPI, WeasyPrint, Docker
+**Tech**: Python, FastAPI, Playwright, Docker
 
 #### [sirius-pdf-templating/](./sirius-pdf-templating)
 **Node.js PDF Templating Service**
@@ -78,7 +78,7 @@ This monorepo contains the following projects:
 ### Prerequisites
 
 - Docker & Docker Compose
-- Python 3.11+ (for backend development)
+- Python 3.13+ (for backend development)
 - Node.js 18+ (for frontend development)
 - Poetry (Python dependency management)
 - Git
@@ -150,7 +150,7 @@ docker-compose -f docker-compose.dev.yml up
 │                           └───────────────────────────┘   │
 │                                                           │
 │  ┌──────────────────────────────────────────────────┐    │
-│  │            PostgreSQL Database                   │    │
+│  │              MySQL Database                      │    │
 │  └──────────────────────────────────────────────────┘    │
 │                                                           │
 └─────────────────────────────────────────────────────────┘

@@ -38,7 +38,7 @@ This is a **monorepo** containing multiple Sirius projects:
 ## 🏗️ Project Overview
 
 ### einvoice-fastapi (Backend)
-**Tech Stack**: FastAPI, SQLAlchemy, Pydantic v2, PostgreSQL, Redis, Docker
+**Tech Stack**: FastAPI, SQLAlchemy, Pydantic v2, MySQL, Redis, Docker
 **Purpose**: Main API backend for invoice management system
 **Key Features**: Multi-tenant workspaces, JWT auth, e-factura integration, AI document processing
 
@@ -65,7 +65,7 @@ This is a **monorepo** containing multiple Sirius projects:
 - Pinia for state management
 
 ### sirius-pdf-generator (Service)
-**Tech Stack**: Python, FastAPI, WeasyPrint, Docker
+**Tech Stack**: Python, FastAPI, Playwright, Docker
 **Purpose**: PDF generation microservice
 **Key Features**: HTML to PDF conversion, template rendering
 
