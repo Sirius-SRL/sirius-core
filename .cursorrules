@@ -12,25 +12,96 @@ This is a **monorepo** containing multiple Sirius projects:
 
 ## 🚨 Critical Rules
 
-### 1. Project-Specific Context
+### 1. Python Import Rules (ABSOLUTE REQUIREMENTS)
+**🔥 THESE RULES ARE NON-NEGOTIABLE AND MUST BE FOLLOWED WITHOUT EXCEPTION! 🔥**
+
+#### ❌ FORBIDDEN - NEVER DO THIS:
+```python
+# ❌ WRONG - Imports inside functions
+def some_function():
+    import something  # NEVER DO THIS!
+    from module import something  # NEVER DO THIS!
+    
+# ❌ WRONG - Using __future__ imports
+from __future__ import annotations  # NEVER USE THIS!
+```
+
+#### ✅ REQUIRED - ALWAYS DO THIS:
+```python
+# ✅ CORRECT - All imports at the top of file
+"""Module docstring."""
+
+# Standard library imports
+import os
+import sys
+from datetime import datetime
+
+# Third-party imports
+from fastapi import FastAPI
+from sqlalchemy.orm import Session
+
+# Local imports
+from src.models import User
+from src.services import UserService
+
+# Type checking imports (ONLY exception for conditional imports)
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from src.schemas import UserSchema  # Only for avoiding circular deps
+
+
+def some_function():
+    """Function implementation without any imports inside."""
+    pass
+```
+
+#### 🚫 ABSOLUTE PROHIBITIONS:
+1. **NEVER EVER** write `import` or `from ... import` inside:
+   - Functions
+   - Methods
+   - Classes
+   - If/else blocks
+   - Try/except blocks
+   - Loops
+   - Any code block except `if TYPE_CHECKING:`
+
+2. **NEVER EVER** use `from __future__ import annotations`
+   - This is FORBIDDEN in this codebase
+   - Use modern Python typing instead: `list[str]`, `dict[str, Any]`, `TYPE | None`
+
+3. **THE ONLY EXCEPTION**: Imports inside `if TYPE_CHECKING:` block for circular dependency resolution
+
+#### 💀 WHY THIS IS CRITICAL:
+- Imports in the middle of code are a DISASTER for:
+  - Code readability
+  - Performance (repeated imports)
+  - Debugging
+  - IDE support
+  - Static analysis tools
+  - Team collaboration
+
+**IF YOU VIOLATE THESE RULES, THE CODE WILL BE REJECTED!**
+
+### 2. Project-Specific Context
 - **ALWAYS** check which subdirectory you're working in
 - **EACH PROJECT** has its own rules in subdirectory `.cursorrules` or `.cursor/` folder
 - **LOAD** project-specific rules when working in that directory
 - **NEVER** apply rules from one project to another
 
-### 2. Development Server Rules
+### 3. Development Server Rules
 - **NEVER** run `npm run dev`, `poetry run`, or similar commands
 - Development servers are ALWAYS running in reload mode
 - **NEVER** check or modify `.env` files - variables are always correct
 
-### 3. Git Operations
+### 4. Git Operations
 - **NEVER** run destructive git commands (force push, hard reset)
 - **NEVER** skip hooks (--no-verify, --no-gpg-sign)
 - **NEVER** force push to main/master
 - **NEVER** commit changes unless user explicitly asks
 - **ALWAYS** warn user before destructive operations
 
-### 4. Documentation
+### 5. Documentation
 - Each project has its own documentation structure
 - Maintain project-specific `task_on_hand.md`, `development_log.md`, etc.
 - Update appropriate project documentation when making changes
@@ -91,7 +162,6 @@ This is a **monorepo** containing multiple Sirius projects:
   - `docker-compose.yml` (production)
   - `docker-compose.dev.yml` (development)
   - `docker-compose.staging.yml` (staging)
-  - `docker-compose.beta.yml` (beta)
   - `docker-compose.local.yml` (local testing)
 
 ### Shared Resources
@@ -122,13 +192,19 @@ This is a **monorepo** containing multiple Sirius projects:
 
 ### Backend (Python/FastAPI)
 ```python
-# Modern typing
+# ✅ CORRECT: All imports at the top
+from typing import Any
+from sqlalchemy.orm import mapped_column
+
+# Modern typing - NO Optional, List, Dict from typing
 def function(param: str) -> dict[str, Any]:
     """PEP257 docstring."""
     pass
 
-# Pydantic v2
-from sqlalchemy.orm import mapped_column
+# ❌ NEVER do this:
+def bad_function():
+    import something  # FORBIDDEN!
+    from __future__ import annotations  # FORBIDDEN!
 ```
 
 ### Frontend (Vue/Nuxt)
@@ -141,12 +217,57 @@ const user_name = ref('')  // ❌ NEVER
 
 // Use composables
 const { t } = useI18n()
+
+// ALWAYS use methods for event handlers - NEVER inline expressions
+const handleAction = () => {
+    foo.value = false
+    bar()
+}
 </script>
+
+<template>
+    <!-- ✅ CORRECT - Use method -->
+    <button @click="handleAction">Click</button>
+    
+    <!-- ❌ FORBIDDEN - Inline expressions break production builds -->
+    <button @click="foo = false; bar()">Click</button>
+</template>
 ```
+
+### 🚨 CRITICAL: Vue Event Handler Rule
+**NEVER use inline expressions in @click, @change, or any event handlers!**
+
+```vue
+<!-- ❌ FORBIDDEN - Will break production build -->
+<button @click="foo = false; bar()">Click</button>
+<button @click="foo = false, bar()">Click</button>
+<button @click="
+    foo = false
+    bar()
+">Click</button>
+
+<!-- ✅ REQUIRED - Always use methods -->
+<script setup lang="ts">
+const handleAction = () => {
+    foo.value = false
+    bar()
+}
+</script>
+<template>
+    <button @click="handleAction">Click</button>
+</template>
+```
+
+**Why**: Vue compiler in production build FAILS on multi-line inline expressions.
+**Error**: `[unplugin-vue-i18n:directive] Error parsing JavaScript expression: Unexpected token, expected ","`
+**Impact**: Docker builds break completely in production.
 
 ## 🚫 Universal Anti-Patterns
 
 ### Across All Projects:
+- ❌ **IMPORTS IN THE MIDDLE OF CODE** (Python) - ABSOLUTE DISASTER!
+- ❌ **Using `from __future__ import annotations`** - FORBIDDEN!
+- ❌ **INLINE EXPRESSIONS IN VUE EVENT HANDLERS** (Vue/Nuxt) - BREAKS PRODUCTION BUILDS!
 - ❌ Starting dev servers
 - ❌ Modifying .env files
 - ❌ Force pushing to protected branches
