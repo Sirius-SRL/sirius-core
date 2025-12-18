@@ -116,7 +116,6 @@ Each service has multiple docker-compose configurations:
 - `docker-compose.yml` - Production
 - `docker-compose.dev.yml` - Development
 - `docker-compose.staging.yml` - Staging
-- `docker-compose.beta.yml` - Beta
 - `docker-compose.local.yml` - Local testing
 
 ```bash
